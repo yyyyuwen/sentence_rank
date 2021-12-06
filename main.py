@@ -202,6 +202,7 @@ def main():
     article_idx = idx_sent(doc)
     doc_idx = split_sent(article_idx)
     sents_word, idx_word, voc_set= word_preprocess(doc_idx) # {文章 : {sentence : split sentence}} | {文章 : words}
+    print(sents_word)
     voc_list = word_count(sents_word) #{文章 : {word : 出現次數}}
     article_tfidf = {}
     for idx, words in enumerate(idx_word.items()):
@@ -216,6 +217,7 @@ def main():
         for sent in article[1].items():
             if(sent[1]):
                 sent_count = 0
+                print(article_tfidf[idx])
                 for word in sent[1]:
                     sent_count += article_tfidf[idx][word]
                 avg_count = sent_count/len(sent[1])
@@ -223,11 +225,11 @@ def main():
         
         article_top[article[0]] = sorted(sent_top.items(), key = lambda x : x[1], reverse=True)
 
-    for item in article_top.items():
-        print('Title :', item[0])
-        for idx, sent in enumerate(item[1][:3]):
-            print('Top %s : %s' % (str(idx+1), sent[0]))
-        print('')
+    # for item in article_top.items():
+    #     print('Title :', item[0])
+    #     for idx, sent in enumerate(item[1][:3]):
+    #         print('Top %s : %s' % (str(idx+1), sent[0]))
+    #     print('')
     
     # with open(save_path, 'wb')as fpick:
     #     pickle.dump(article_top, fpick)

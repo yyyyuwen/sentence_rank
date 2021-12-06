@@ -33,6 +33,10 @@ def Home():
         covid = pickle.load(file)
     with open('./virus.pickle','rb') as file:
         virus = pickle.load(file)
+    with open('./covid_tfidf','rb') as file:
+        covid_tfidf = pickle.load(file)
+    with open('./virus_tfidf','rb') as file:
+        virus_tfidf = pickle.load(file)
     
     return render_template('index.html', **locals(), enumerate = enumerate)
 

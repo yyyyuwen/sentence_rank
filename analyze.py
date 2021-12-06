@@ -218,14 +218,18 @@ def main():
             word_tfidf = tf_idf(word, voc_list[idx], idx_word[idx])
             tfidf_list[word] = word_tfidf
         article_tfidf[words[0]] = sorted(tfidf_list.items(), key = lambda x : x[1], reverse=True)
+    sorted_article = {}
+    for idx, word in enumerate(article_tfidf.items()):
+        sorted_article[word[0]] = dict((x, y) for x, y in word[1])
     article_top = {}
     for idx, article in enumerate(sents_word.items()):
         sent_top = {}
         for sent in article[1].items():
             if(sent[1]):
                 sent_count = 0
+                # print(article_tfidf[idx])
                 for word in sent[1]:
-                    sent_count += article_tfidf[idx][word]
+                    sent_count += sorted_article[idx][word]
                 avg_count = sent_count/len(sent[1])
                 sent_top[sent[0]] = avg_count
         article_top[article[0]] = sorted(sent_top.items(), key = lambda x : x[1], reverse=True)
@@ -236,8 +240,7 @@ def main():
             print('Top %s : %s' % (str(idx+1), sent[0]))
         print('')
 
-    # with open(save_path, 'wb')as fpick:
-    #     pickle.dump(article_top, fpick)
+    
     # with open(save_voc, 'wb')as fpick:
     #     pickle.dump(voc_set, fpick)
 
