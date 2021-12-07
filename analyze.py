@@ -218,6 +218,25 @@ def main():
             word_tfidf = tf_idf(word, voc_list[idx], idx_word[idx])
             tfidf_list[word] = word_tfidf
         article_tfidf[words[0]] = sorted(tfidf_list.items(), key = lambda x : x[1], reverse=True)
+    word_list = []
+    for idx, word in enumerate(article_tfidf.items()):
+        word_list.append(word[1][:5])
+    word_dict = {}
+    for words in word_list:
+        for word in words:
+            if word[0] not in word_dict:
+                word_dict[word[0]] = 1
+            else:
+                word_dict[word[0]] += 1
+    word_dict = sorted(word_dict.items(), key = lambda x : x[1], reverse=True)
+    mydict = dict((x, y) for x, y in word_dict)
+    print(mydict)
+    x = list(mydict.keys()) 
+    y = list(mydict.values())
+    plt.title('Covid') 
+    plt.xticks(rotation=45)
+    plt.plot(x[:15], y[:15])
+    plt.show()
     sorted_article = {}
     for idx, word in enumerate(article_tfidf.items()):
         sorted_article[word[0]] = dict((x, y) for x, y in word[1])
@@ -234,11 +253,11 @@ def main():
                 sent_top[sent[0]] = avg_count
         article_top[article[0]] = sorted(sent_top.items(), key = lambda x : x[1], reverse=True)
 
-    for item in article_top.items():
-        print('Title :', item[0])
-        for idx, sent in enumerate(item[1][:3]):
-            print('Top %s : %s' % (str(idx+1), sent[0]))
-        print('')
+    # for item in article_top.items():
+    #     print('Title :', item[0])
+    #     for idx, sent in enumerate(item[1][:3]):
+    #         print('Top %s : %s' % (str(idx+1), sent[0]))
+    #     print('')
 
     
     # with open(save_voc, 'wb')as fpick:

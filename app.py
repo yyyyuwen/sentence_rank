@@ -29,17 +29,35 @@ app.config['ROUTE'] = ROUTE
 
 @app.route('/')
 def Home():
-    with open('./covid.pickle','rb') as file:
+    with open('./file/covid.pickle','rb') as file:
         covid = pickle.load(file)
-    with open('./virus.pickle','rb') as file:
+    with open('./file/virus.pickle','rb') as file:
         virus = pickle.load(file)
-    with open('./covid_tfidf','rb') as file:
+    with open('./file/covid_tfidf','rb') as file:
         covid_tfidf = pickle.load(file)
-    with open('./virus_tfidf','rb') as file:
+    with open('./file/virus_tfidf','rb') as file:
         virus_tfidf = pickle.load(file)
     
     return render_template('index.html', **locals(), enumerate = enumerate)
 
+@app.route('/index')
+def index():
+    with open('./file/covid.pickle','rb') as file:
+        covid = pickle.load(file)
+    with open('./file/virus.pickle','rb') as file:
+        virus = pickle.load(file)
+    with open('./file/covid_tfidf','rb') as file:
+        covid_tfidf = pickle.load(file)
+    with open('./file/virus_tfidf','rb') as file:
+        virus_tfidf = pickle.load(file)
+    
+    return render_template('index.html', **locals(), enumerate = enumerate)
+
+@app.route('/show_img')
+def show_img():
+    covid = os.path.join(app.config['IMG_FOLDER'], 'covid.png')
+    virus = os.path.join(app.config['IMG_FOLDER'], 'virus.png')
+    return render_template('show_img.html', **locals())
 
 if __name__ == "__main__":
     app.debug = True
